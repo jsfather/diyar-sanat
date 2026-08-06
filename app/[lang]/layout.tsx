@@ -57,7 +57,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   return (
     <html lang={lang} dir={directionFor(lang)} suppressHydrationWarning>
-      <body className={fontClassFor(lang)}>
+      <body className={fontClassFor(lang)} suppressHydrationWarning>
         <a className="skip-link" href="#main-content">
           {lang === "fa" ? "پرش به محتوای اصلی" : "Skip to main content"}
         </a>

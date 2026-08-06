@@ -24,10 +24,5 @@ export function ThemeToggle({ lightLabel, darkLabel }: ThemeToggleProps) {
   }
 
   const label = `${lightLabel} / ${darkLabel}`;
-  return (
-    <button className="icon-button" type="button" onClick={toggleTheme} aria-label={label} title={label}>
-      <MoonIcon className="theme-icon theme-icon-light size-5" />
-      <SunIcon className="theme-icon theme-icon-dark size-5" />
-    </button>
-  );
+  return <button className="theme-switch" type="button" onClick={toggleTheme} aria-label={label} title={label}><span className="theme-switch-track"><span className="theme-switch-sun"><SunIcon className="size-4" /></span><span className="theme-switch-moon"><MoonIcon className="size-4" /></span></span></button>;
 }

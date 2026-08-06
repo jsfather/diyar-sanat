@@ -3,6 +3,106 @@
 Update this file with every feature, bug fix, schema change, or architecture
 decision. Newest entries go first.
 
+## 2026-08-06 — Theme switch and About navigation icon
+
+- Replaced the compact icon/text theme button with a clear two-state sun/moon
+  switch, animated selection thumb, visible light/dark state, keyboard focus,
+  mobile sizing, and dark-surface styling.
+- Replaced the Iran-map icon used for About in mobile bottom navigation with a
+  neutral, recognizable information icon.
+- Affected surfaces: global header and mobile bottom navigation. No database
+  migration.
+- Verification: `bun run lint`, `bun run typecheck`, and an isolated
+  `bun run build -- --webpack` completed successfully.
+
+## 2026-08-06 — Locale switcher and mobile footer/navigation refinement
+
+- Replaced the FA/EN segmented control with a clearer single-action language
+  switcher showing the active language, destination locale, and a visual
+  language symbol; switching now preserves the current route.
+- Replaced the unused Account destination in mobile bottom navigation with the
+  real localized About route and an appropriate Iran/company icon.
+- Returned mobile copyright and design credit to one aligned horizontal level,
+  with balanced widths and RTL/LTR-aware end alignment.
+- Affected surfaces: global header, mobile bottom navigation, and footer. No
+  database migration.
+- Verification: `bun run lint`, `bun run typecheck`, and an isolated
+  `bun run build -- --webpack` completed successfully.
+
+## 2026-08-06 — Mobile controls, footer, hero spacing, and dark-theme audit
+
+- Replaced the one-way native-details mobile menu with a controlled accessible
+  drawer that closes through its visible close button, backdrop, Escape key, or
+  route navigation.
+- Made the mobile theme control visually explicit with a compact action label
+  and stronger day/night icon contrast.
+- Replaced the homepage badge artwork with the complete Iran-shaped official
+  flag asset and separated the badge from the highlights panel on desktop and
+  mobile.
+- Rebuilt the mobile footer into a clear single-column stack, removed text
+  collisions, and moved Back to top into normal footer flow so it cannot cover
+  legal or credit copy.
+- Corrected the mobile bottom navigation so its active state follows the current
+  route instead of always highlighting Home.
+- Audited shared dark-mode surfaces across homepage, representatives, forms,
+  careers, products, media, contact, About, navigation, and mobile bottom nav;
+  added consistent dark backgrounds, borders, headings, body copy, and form
+  controls while preserving media and brand accents.
+- Affected surfaces: all localized public pages. No database migration.
+- Verification: `bun run lint`, `bun run typecheck`, and an isolated
+  `bun run build -- --webpack` completed successfully. Automated browser review
+  was attempted, but no in-app or connected browser was available in the
+  environment; the existing local development server remained untouched.
+
+## 2026-08-06 — Browser-extension hydration warning suppression
+
+- Added scoped hydration-warning suppression to the locale layout `body`
+  element because browser extensions can inject attributes such as
+  `cz-shortcut-listen` before React hydrates the server-rendered document.
+- Kept the existing root direction/language structure unchanged and scoped the
+  suppression to the exact externally mutated element rather than masking
+  hydration differences throughout the application tree.
+- Affected routes: all localized public pages. No database migration.
+- Verification: `bun run lint` and `bun run typecheck` completed successfully.
+
+## 2026-08-06 — Long-form article stress test and media UX refinement
+
+- Added approximately 1,500 words of clearly labeled placeholder copy to each
+  article template so typography, vertical rhythm, sticky contents navigation,
+  lists, CTAs, and related content can be evaluated under realistic length.
+- Increased and grouped publication date, reading time, and editorial identity
+  into a high-contrast metadata surface suitable for desktop and mobile.
+- Refined archive hierarchy so the lead story spans the full grid, secondary
+  cards maintain equal structure, excerpts and headings clamp consistently,
+  filters remain discoverable, and mobile shows every card vertically instead
+  of hiding the archive behind horizontal scrolling.
+- Improved long-form body width, paragraph size, line height, heading anchors,
+  sample-content separation, and narrow-screen reading behavior.
+- Affected routes: `/[lang]/media` and `/[lang]/media/[slug]`. No database
+  migration.
+- Verification: `bun run lint`, `bun run typecheck`, and an isolated
+  `bun run build -- --webpack` completed successfully for all localized media
+  routes.
+
+## 2026-08-06 — SEO media archive and long-form article system
+
+- Restored Media to the primary navigation and connected homepage journal cards
+  and footer access to real localized media routes.
+- Added a responsive archive for News, Blog, and Tutorial content with category
+  filtering, text search, featured-story hierarchy, honest empty state, and
+  direct canonical article URLs.
+- Added long-form article pages supporting cover images, optional native video,
+  semantic sections, sticky contents navigation, contextual CTA, related
+  articles, breadcrumb navigation, and accessible responsive behavior.
+- Added per-article metadata, Open Graph/Twitter fields, Article or NewsArticle
+  JSON-LD, publisher/author identity, canonical URLs, static route generation,
+  and sitemap discovery. Content avoids unverified product and export claims.
+- Affected routes: `/[lang]/media` and `/[lang]/media/[slug]`, plus global
+  navigation and homepage journal links. No database migration.
+- Verification: `bun run lint`, `bun run typecheck`, and an isolated
+  `bun run build -- --webpack` completed successfully; all eight localized
+  article URLs were statically generated.
+
 ## 2026-08-06 — Product micro-interactions, archive hierarchy, and working search
 
 - Replaced the simplified origin stripes with the complete Iran-shaped flag
