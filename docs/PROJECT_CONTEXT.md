@@ -1,0 +1,81 @@
+# Diyar Sanat Tabriz — project context
+
+This file is the shared product and architecture source of truth. Read it before
+planning or implementing work.
+
+## Product
+
+Diyar Sanat Tabriz is an industrial manufacturer with the Diyar Shimi brand.
+The website is the official source for the company, four automotive-fluid
+product groups, representatives, representative applications, media, technical
+content, certificates, careers, contact, and future international cooperation.
+
+The company is new and has not started active exports. Never present export
+counts, representative counts, awards, standards, production capacity, or
+customer numbers unless the employer supplies verifiable evidence. Preferred
+positioning: “Made in Iran, moving forward” and “on the path toward regional and
+global markets.”
+
+## Experience and design system
+
+- Visual character: industrial, precise, Iranian, trustworthy, modern, and
+  premium without decorative luxury.
+- Palette: Primary 900 `#0A2240`, Primary 700 `#164B82`, Primary 500 `#2877BD`,
+  Accent 600 `#D12632`, Neutral 950 `#101820`, Neutral 700 `#40505F`, Neutral 200
+  `#E4E8EB`, Neutral 50 `#F7F9FA`, White `#FFFFFF`.
+- Red is reserved for one priority CTA per viewport. Navy carries identity and
+  trust. Most page area remains white or very light gray.
+- Persian font preference is Dana, then Vazirmatn/Noto Sans Arabic; English uses
+  Manrope. Use durable local/system fallbacks until licensed font files exist.
+- Desktop: 1280px content container, 12 columns, 24px gutters. Tablet: 8
+  columns, 24px margins. Mobile: 4 columns, 16px margins, 12px gutters.
+- Spacing scale: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 120.
+- Cards generally use 12px radii, buttons and inputs 8px. Default border is
+  `#E4E8EB`. Motion lasts 180–300ms, uses ease-out, respects reduced motion, and
+  avoids heavy parallax.
+- Accessibility baseline: WCAG AA contrast, 44×44 touch targets, visible focus,
+  one H1 per page, semantic H2/H3 hierarchy, alt text, and useful loading/empty/
+  error states.
+- Mobile is a purpose-built layout, not a scaled desktop page. Product cards can
+  scroll horizontally and the five-item bottom navigation appears only on
+  mobile.
+
+## Routing and content architecture
+
+- Locale roots: `/fa` and `/en`.
+- Initial implementation: homepage and `/[lang]/products`.
+- Planned routes: about, product details, representatives by country/province,
+  representative application, international cooperation, certificates, media
+  (news/blog/gallery), careers, contact, downloads, search, FAQ, legal pages,
+  privacy, and error pages.
+- Product navigation follows brand → category → product and becomes a nested
+  accordion on mobile.
+- Primary product groups: engine oil, gear oil, brake fluid, and antifreeze.
+- Representative discovery needs an accessible province/country selector in
+  addition to the SVG map. Province URLs must remain indexable.
+- Long application forms are multi-step, resumable, and end with a visible
+  tracking code.
+
+## Architecture
+
+- Next.js App Router, TypeScript strict mode, Tailwind CSS, Server Components by
+  default, and locale-prefixed routing.
+- Supabase is the system of record. Public catalog reads use the publishable key;
+  privileged administration will use authenticated users plus database RLS.
+- Database workflow is imperative, timestamped migrations in
+  `supabase/migrations/`, with development seed data in `supabase/seed.sql`.
+- The initial catalog schema separates stable entities from localized copy, so
+  Persian and English can have independent slugs and content.
+- Keep the app deployable against hosted or self-hosted Supabase/Postgres. The
+  current self-hosting baseline is Postgres 17; review Supabase breaking changes
+  before upgrades.
+
+## Source material
+
+The employer’s Persian brief and these files are the original design inputs:
+
+- `Diar_Sanat_Design_System_FA.docx`
+- `Diar_Sanat_Information_Architecture_FA.docx`
+- desktop and mobile homepage reference screenshots supplied on 2026-08-06
+
+The supplied DOCX files remain the authority if a summary here is ambiguous.
