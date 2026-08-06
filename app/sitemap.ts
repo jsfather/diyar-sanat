@@ -14,6 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `https://diyarsanat.com/${locale}/careers`, lastModified, changeFrequency: "weekly" as const, priority: 0.7 },
     { url: `https://diyarsanat.com/${locale}/careers/general-application`, lastModified, changeFrequency: "monthly" as const, priority: 0.55 },
     { url: `https://diyarsanat.com/${locale}/international-cooperation`, lastModified, changeFrequency: "monthly" as const, priority: 0.7 },
+    { url: `https://diyarsanat.com/${locale}/media`, lastModified, changeFrequency: "weekly" as const, priority: 0.8 },
+    { url: `https://diyarsanat.com/${locale}/media/choosing-the-right-engine-oil`, lastModified, changeFrequency: "monthly" as const, priority: 0.7 },
     { url: `https://diyarsanat.com/${locale}/representatives/iran/east-azerbaijan`, lastModified, changeFrequency: "weekly" as const, priority: 0.7 },
   ]);
 }

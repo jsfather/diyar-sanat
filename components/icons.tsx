@@ -51,6 +51,9 @@ export const PhoneIcon = (props: IconProps) => (
 export const UserIcon = (props: IconProps) => (
   <IconBase {...props}><circle cx="12" cy="8" r="4" /><path d="M4 22a8 8 0 0 1 16 0" /></IconBase>
 );
+export const InfoIcon = (props: IconProps) => (
+  <IconBase {...props}><circle cx="12" cy="12" r="9" /><path d="M12 11v6" /><path d="M12 7h.01" /></IconBase>
+);
 export const ShieldIcon = (props: IconProps) => (
   <IconBase {...props}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /><path d="m9 12 2 2 4-4" /></IconBase>
 );
