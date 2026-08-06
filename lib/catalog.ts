@@ -253,3 +253,21 @@ export function featuredProducts(catalog: CatalogResult, limit = 4) {
     .sort((a, b) => a.position - b.position)
     .slice(0, limit);
 }
+
+export function findCatalogProduct(catalog: CatalogResult, slug: string) {
+  for (const category of catalog.categories) {
+    const product = category.products.find((item) => item.slug === slug);
+    if (product) return { product, category };
+  }
+  return null;
+}
+
+export function productFallbackImage(categoryCode: string) {
+  const images: Record<string, string> = {
+    "engine-oil": "/images/product-engine-oil-dst.png",
+    "gear-oil": "/images/product-gear-oil-dst.png",
+    "brake-fluid": "/images/product-brake-fluid-dst.png",
+    antifreeze: "/images/product-antifreeze-dst.png",
+  };
+  return images[categoryCode] ?? "/images/product-engine-oil-dst.png";
+}

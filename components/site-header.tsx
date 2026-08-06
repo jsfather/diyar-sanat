@@ -1,35 +1,31 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { BrandMark } from "@/components/brand-mark";
-import { ChevronIcon, MenuIcon, SearchIcon } from "@/components/icons";
+import { MenuIcon } from "@/components/icons";
+import { HeaderNavigation } from "@/components/header-navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteSearch } from "@/components/site-search";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
-  const switchLocale = locale === "fa" ? "en" : "fa";
   const nav = [
     [dict.navigation.home, `/${locale}`],
-    [dict.navigation.about, `/${locale}#factory`],
+    [dict.navigation.about, `/${locale}/about`],
     [dict.navigation.products, `/${locale}/products`],
-    [dict.navigation.representatives, `/${locale}#representatives`],
+    [dict.navigation.representatives, `/${locale}/representatives`],
     [dict.navigation.certificates, `/${locale}#certificates`],
-    [dict.navigation.media, `/${locale}#media`],
-    [dict.navigation.contact, `/${locale}#contact`],
+    [locale === "fa" ? "همکاری بین‌المللی" : "International", `/${locale}/international-cooperation`],
+    [dict.navigation.careers, `/${locale}/careers`],
+    [dict.navigation.contact, `/${locale}/contact`],
   ] as const;
 
   return (
     <header className="site-header">
       <div className="container-wide header-main">
         <BrandMark locale={locale} />
-        <nav className="desktop-nav" aria-label={locale === "fa" ? "ناوبری اصلی" : "Primary navigation"}>
-          {nav.map(([label, href], index) => (
-            <Link key={href} href={href} className={index === 0 ? "active" : undefined}>
-              {label}
-              {index === 2 ? <ChevronIcon className="size-3 rotate-90" /> : null}
-            </Link>
-          ))}
-        </nav>
+        <Suspense fallback={<nav className="desktop-nav" aria-hidden="true" />}><HeaderNavigation items={nav} label={locale === "fa" ? "ناوبری اصلی" : "Primary navigation"} /></Suspense>
         <div className="header-tools">
           <details className="mobile-menu">
             <summary className="icon-button" aria-label={locale === "fa" ? "باز کردن منو" : "Open menu"}>
@@ -42,22 +38,16 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               </nav>
             </div>
           </details>
-          <Link
-            className="language-switch"
-            href={`/${switchLocale}`}
-            hrefLang={switchLocale}
-            lang={switchLocale}
-            dir={switchLocale === "fa" ? "rtl" : "ltr"}
-          >
-            {dict.languageLabel}
-          </Link>
+          <nav className="language-switcher" aria-label={locale === "fa" ? "انتخاب زبان" : "Choose language"} dir="ltr">
+            <Link href="/fa" hrefLang="fa" lang="fa" className={locale === "fa" ? "active" : undefined} aria-current={locale === "fa" ? "page" : undefined}>FA</Link>
+            <i aria-hidden="true" />
+            <Link href="/en" hrefLang="en" lang="en" className={locale === "en" ? "active" : undefined} aria-current={locale === "en" ? "page" : undefined}>EN</Link>
+          </nav>
           <ThemeToggle lightLabel={dict.theme.light} darkLabel={dict.theme.dark} />
-          <button className="icon-button desktop-tool" aria-label={locale === "fa" ? "جست‌وجو" : "Search"}>
-            <SearchIcon className="size-5" />
-          </button>
+          <SiteSearch locale={locale} />
           <Link
             className="representative-button"
-            href={`/${locale}#representatives`}
+            href={`/${locale}/representative-application`}
             dir={locale === "fa" ? "rtl" : "ltr"}
           >
             {dict.actions.representative}

@@ -35,7 +35,18 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       siteName: title,
       title,
       description,
-      images: [{ url: "/images/industrial-hero.webp", width: 1536, height: 1024, alt: dict.hero.sampleImage }],
+      images: [{
+        url: "/images/diyar-social-card.png",
+        width: 1731,
+        height: 909,
+        alt: lang === "fa" ? "دیار صنعت تبریز؛ ساخت ایران، حرکت به جلو" : "Diyar Sanat Tabriz — Made in Iran, moving forward",
+      }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/images/diyar-social-card.png"],
     },
   };
 }

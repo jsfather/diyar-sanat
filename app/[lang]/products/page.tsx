@@ -81,6 +81,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
                       slug={product.slug}
                       imageUrl={product.imageUrl}
                       icon={category.icon}
+                      categoryCode={category.code}
                       accentColor={category.accentColor}
                       detailsLabel={dict.actions.details}
                     />

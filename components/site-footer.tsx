@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { BrandMark } from "@/components/brand-mark";
-import { MailIcon } from "@/components/icons";
+import { MailIcon, MapPinIcon, PhoneIcon, ShieldIcon } from "@/components/icons";
+import { IranMapMark } from "@/components/iran-map-mark";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n";
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
+  const fa = locale === "fa";
   return (
     <footer id="contact" className="site-footer">
       <div className="newsletter container-wide">
@@ -21,36 +22,48 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         </form>
       </div>
       <div className="container-wide footer-grid">
-        <div className="footer-brand">
-          <BrandMark locale={locale} />
-          <p>{dict.footer.summary}</p>
-          <span className="status-note">{dict.footer.status}</span>
+        <div className="footer-credentials">
+          <h3>{fa ? "نمادها و مجوزها" : "Credentials"}</h3>
+          <div className="credential-marks">
+            <span><IranMapMark className="size-8" /><small>{fa ? "ساخت ایران" : "Made in Iran"}</small></span>
+            <span><ShieldIcon className="size-8" /><small>{fa ? "در انتظار تأیید" : "Pending approval"}</small></span>
+          </div>
+          <p>{fa ? "اطلاعات رسمی مجوزها پس از راستی‌آزمایی منتشر می‌شود." : "Official licensing details will be published after verification."}</p>
+        </div>
+        <div className="footer-contact">
+          <h3>{fa ? "اطلاعات تماس" : "Contact information"}</h3>
+          <p><MapPinIcon className="size-4" />{fa ? "تبریز، ایران" : "Tabriz, Iran"}</p>
+          <p><PhoneIcon className="size-4" />{fa ? "شماره رسمی در انتظار تأیید" : "Official number pending approval"}</p>
+          <a href="mailto:info@diyarsanat.com" dir="ltr"><MailIcon className="size-4" />info@diyarsanat.com</a>
         </div>
         <div>
-          <h3>{locale === "fa" ? "محصولات" : "Products"}</h3>
-          <Link href={`/${locale}/products`}>{locale === "fa" ? "روغن موتور" : "Engine oil"}</Link>
-          <Link href={`/${locale}/products`}>{locale === "fa" ? "واسکازین" : "Gear oil"}</Link>
-          <Link href={`/${locale}/products`}>{locale === "fa" ? "مایع ترمز" : "Brake fluid"}</Link>
-          <Link href={`/${locale}/products`}>{locale === "fa" ? "ضدیخ" : "Antifreeze"}</Link>
+          <h3>{fa ? "خدمات مشتریان" : "Customer service"}</h3>
+          <Link href={`/${locale}#representatives`}>{fa ? "پرسش‌های متداول" : "Frequently asked questions"}</Link>
+          <Link href={`/${locale}#contact`}>{fa ? "راهنمای خرید" : "Buying guide"}</Link>
+          <Link href={`/${locale}#contact`}>{fa ? "پیگیری درخواست" : "Track a request"}</Link>
+          <Link href={`/${locale}/contact`}>{fa ? "تماس با ما" : "Contact us"}</Link>
         </div>
         <div>
-          <h3>{locale === "fa" ? "دسترسی سریع" : "Quick links"}</h3>
+          <h3>{fa ? "محصولات" : "Products"}</h3>
+          <Link href={`/${locale}/products`}>{fa ? "روغن موتور" : "Engine oil"}</Link>
+          <Link href={`/${locale}/products`}>{fa ? "واسکازین" : "Gear oil"}</Link>
+          <Link href={`/${locale}/products`}>{fa ? "مایع روغن ترمز" : "Brake fluid"}</Link>
+          <Link href={`/${locale}/products`}>{fa ? "ضدیخ و ضدجوش" : "Antifreeze and coolant"}</Link>
+        </div>
+        <div>
+          <h3>{fa ? "دسترسی سریع" : "Quick links"}</h3>
           <Link href={`/${locale}`}>{dict.navigation.home}</Link>
-          <Link href={`/${locale}#factory`}>{dict.navigation.about}</Link>
-          <Link href={`/${locale}#media`}>{dict.navigation.media}</Link>
-          <Link href={`/${locale}#contact`}>{dict.navigation.contact}</Link>
-        </div>
-        <div>
-          <h3>{locale === "fa" ? "ارتباط" : "Contact"}</h3>
-          <p>{locale === "fa" ? "تبریز، ایران" : "Tabriz, Iran"}</p>
-          <p>{locale === "fa" ? "اطلاعات رسمی در انتظار تأیید" : "Official details pending approval"}</p>
-          <a href="mailto:info@diyarsanat.com" dir="ltr">info@diyarsanat.com</a>
+          <Link href={`/${locale}/about`}>{dict.navigation.about}</Link>
+          <Link href={`/${locale}/careers`}>{dict.navigation.careers}</Link>
+          <Link href={`/${locale}/international-cooperation`}>{fa ? "همکاری بین‌المللی" : "International cooperation"}</Link>
+          <Link href={`/${locale}/contact`}>{dict.navigation.contact}</Link>
         </div>
       </div>
       <div className="footer-bottom container-wide">
         <span>{dict.footer.rights}</span>
         <span>{dict.footer.credit}</span>
       </div>
+      <a className="back-to-top" href="#main-content" aria-label={fa ? "بازگشت به بالای صفحه" : "Back to top"}>⌃</a>
     </footer>
   );
 }

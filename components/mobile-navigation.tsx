@@ -6,10 +6,10 @@ import { getDictionary } from "@/lib/i18n";
 export function MobileNavigation({ locale }: { locale: Locale }) {
   const { navigation } = getDictionary(locale);
   const items = [
-    [navigation.representatives, `/${locale}#representatives`, MapPinIcon, false],
+    [navigation.representatives, `/${locale}/representatives`, MapPinIcon, false],
     [navigation.products, `/${locale}/products`, GridIcon, false],
     [navigation.home, `/${locale}`, HomeIcon, true],
-    [navigation.contact, `/${locale}#contact`, PhoneIcon, false],
+    [navigation.contact, `/${locale}/contact`, PhoneIcon, false],
     [locale === "fa" ? "حساب کاربری" : "Account", `/${locale}#account`, UserIcon, false],
   ] as const;
 
