@@ -109,8 +109,7 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 [dir="ltr"] .hero-wash { background: linear-gradient(-90deg, transparent 0 42%, rgb(255 255 255 / 72%) 62%, #fff 87%); }
 .hero-content { min-height: 650px; display: flex; align-items: center; justify-content: flex-start; }
 [dir="rtl"] .hero-content { justify-content: flex-start; }
-.hero-copy { width: min(520px, 47%); margin-inline-start: auto; padding-block: 80px 120px; color: var(--primary-900); }
-[dir="ltr"] .hero-copy { margin-inline-start: 0; margin-inline-end: auto; }
+.hero-copy { width: min(520px, 47%); margin-inline: 0 auto; padding-block: 80px 120px; color: var(--primary-900); }
 .hero-copy h1 { margin: 16px 0 20px; display: grid; font-size: clamp(40px, 4.4vw, 64px); line-height: 1.2; letter-spacing: -.035em; }
 .hero-copy h1 strong { color: var(--accent-600); }
 .hero-copy p { max-width: 500px; margin: 0 0 28px; color: #304456; font-size: 17px; line-height: 2; }

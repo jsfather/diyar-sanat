@@ -3,6 +3,14 @@
 Update this file with every feature, bug fix, schema change, or architecture
 decision. Newest entries go first.
 
+## 2026-08-06 — RTL hero placement and Supabase seed verification
+
+- Corrected the desktop hero’s logical auto margin so Persian content occupies
+  the right side and English content remains on the left without physical
+  left/right CSS overrides.
+- Supabase verification: pending migration replay, seed, RLS/API checks, and
+  application catalog read.
+
 ## 2026-08-06 — Locale-aware typography and bidirectional layout
 
 - Added the project-supplied IRANYekanX Pro variable WOFF2 fonts via
