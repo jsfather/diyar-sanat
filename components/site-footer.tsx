@@ -55,6 +55,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <Link href={`/${locale}`}>{dict.navigation.home}</Link>
           <Link href={`/${locale}/about`}>{dict.navigation.about}</Link>
           <Link href={`/${locale}/careers`}>{dict.navigation.careers}</Link>
+          <Link href={`/${locale}/media`}>{dict.navigation.media}</Link>
           <Link href={`/${locale}/international-cooperation`}>{fa ? "همکاری بین‌المللی" : "International cooperation"}</Link>
           <Link href={`/${locale}/contact`}>{dict.navigation.contact}</Link>
         </div>

@@ -32,6 +32,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     "/images/product-gear-oil-dst.jpg",
     "/images/product-antifreeze-dst.jpg",
   ] as const;
+  const mediaSlugs = ["choosing-the-right-engine-oil", "why-standard-fluids-matter", "diyar-sanat-product-development-direction", "quality-control-process-overview"] as const;
 
   const metrics = [
     [fa ? "۴ گروه محصول" : "4 product groups", fa ? "سبد تخصصی محصولات خودرو" : "Specialist automotive range", FlaskIcon, "red"],
@@ -67,9 +68,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           <div className="hero-ribbons" aria-hidden="true" />
           <span className="made-in-iran-badge">
             <span className="iran-badge-mark" aria-hidden="true">
-              <span className="iran-ribbon-flag"><i /><i /><i /></span>
-              <IranMapMark />
-              <span className="iran-gear"><GearIcon /></span>
+              <Image src="/images/iran-flag-map.png" alt="" fill sizes="72px" />
             </span>
             <span className="iran-badge-copy"><strong>{fa ? "ساخت ایران" : "Made in Iran"}</strong><small>{fa ? "حرکت به جلو" : "Moving forward"}</small></span>
           </span>
@@ -158,19 +157,19 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           <div className="media-grid">
             {[...dict.media.items, dict.media.items[0]].map(([title, type], index) => (
               <article className={index === 0 ? "media-featured" : "media-compact"} key={`${title}-${index}`}>
-                <Link className="media-cover" href={`/${lang}#media`} aria-label={title}>
+                <Link className="media-cover" href={`/${lang}/media/${mediaSlugs[index]}`} aria-label={title}>
                   <Image src={mediaImages[index] ?? mediaImages[0]} alt="" fill sizes={index === 0 ? "(max-width: 800px) 88vw, 58vw" : "(max-width: 800px) 72vw, 240px"} />
                   <span>{type}</span>
                 </Link>
                 <div className="media-card-copy">
                   <div className="media-meta"><time dateTime="2026-08-06">{fa ? "۱۵ مرداد ۱۴۰۵" : "August 6, 2026"}</time><span aria-hidden="true" /><small>{fa ? "۳ دقیقه مطالعه" : "3 min read"}</small></div>
                   <h3>{title}</h3>
-                  <Link href={`/${lang}#media`}>{fa ? "مطالعه مطلب" : "Read article"}<span><ChevronIcon className="directional-icon size-4" /></span></Link>
+                  <Link href={`/${lang}/media/${mediaSlugs[index]}`}>{fa ? "مطالعه مطلب" : "Read article"}<span><ChevronIcon className="directional-icon size-4" /></span></Link>
                 </div>
               </article>
             ))}
           </div>
-          <Link className="media-more" href={`/${lang}#media`}>{fa ? "مشاهده همه اخبار و مقالات" : "View all news and articles"}<span><ChevronIcon className="directional-icon size-4" /></span></Link>
+          <Link className="media-more" href={`/${lang}/media`}>{fa ? "مشاهده همه اخبار و مقالات" : "View all news and articles"}<span><ChevronIcon className="directional-icon size-4" /></span></Link>
         </div>
       </section>
 
