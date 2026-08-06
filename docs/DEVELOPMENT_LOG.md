@@ -3,6 +3,31 @@
 Update this file with every feature, bug fix, schema change, or architecture
 decision. Newest entries go first.
 
+## 2026-08-06 — Locale-aware typography and bidirectional layout
+
+- Added the project-supplied IRANYekanX Pro variable WOFF2 fonts via
+  `next/font/local`.
+  Persian routes use the FaNum face for Persian digits; English routes use the
+  standard face for Latin digits. Eager preload is disabled so each locale only
+  downloads the face it actually applies.
+- Reduced the supplied font bundle to the two production web fonts and retained
+  its license notice beside them; removed static, desktop, demo, and metadata
+  files that are not shipped by the application.
+- Audited shared directionality beyond text alignment: CTA groups and header
+  controls now mirror by locale, directional chevrons flip in RTL, mobile menu
+  content restores the document direction, intrinsically LTR email content is
+  isolated, and mobile navigation ordering mirrors around the centered home
+  action.
+- Updated the permanent agent and product-context rules so future shared UI work
+  must preserve FaNum/LTR numerals and structural RTL behavior.
+- Affected routes: `/fa`, `/en`, `/fa/products`, and `/en/products`. No database
+  migration was required.
+- Verification: `bun run lint`, `bun run typecheck`, and
+  `bun run build -- --webpack` pass. The optimized CSS contains both variable
+  faces with locale-selectable font variables and no eager preload. A new local
+  runtime preview could not bind a port in the managed runner (`listen EPERM`),
+  so this pass did not add browser-based visual QA.
+
 ## 2026-08-06 — Foundation, catalog, and first responsive routes
 
 - Added durable contributor instructions and consolidated the employer’s

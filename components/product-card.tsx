@@ -34,7 +34,7 @@ export function ProductCard(props: ProductCardProps) {
         <strong dir="ltr">{specification}</strong>
         <p>{description}</p>
         <Link href={`/${locale}/products#${slug}`}>
-          {detailsLabel}<ChevronIcon className="size-4" />
+          {detailsLabel}<ChevronIcon className="directional-icon size-4" />
         </Link>
       </div>
     </article>

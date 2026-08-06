@@ -42,7 +42,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
         <div className="container-wide">
           <nav className="breadcrumbs" aria-label={lang === "fa" ? "مسیر صفحه" : "Breadcrumb"}>
             <Link href={`/${lang}`}><HomeIcon className="size-4" />{dict.navigation.home}</Link>
-            <ChevronIcon className="size-4" />
+            <ChevronIcon className="directional-icon size-4" />
             <span>{dict.navigation.products}</span>
           </nav>
           <span className="eyebrow">{dict.products.eyebrow}</span>

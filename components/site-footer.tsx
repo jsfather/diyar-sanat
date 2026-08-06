@@ -16,7 +16,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         </div>
         <form className="newsletter-form">
           <label className="sr-only" htmlFor="newsletter-email">{dict.newsletter.placeholder}</label>
-          <input id="newsletter-email" type="email" placeholder={dict.newsletter.placeholder} disabled />
+          <input id="newsletter-email" type="email" inputMode="email" autoComplete="email" dir="ltr" placeholder={dict.newsletter.placeholder} disabled />
           <button type="button" disabled>{dict.newsletter.submit}</button>
         </form>
       </div>
@@ -44,7 +44,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <h3>{locale === "fa" ? "ارتباط" : "Contact"}</h3>
           <p>{locale === "fa" ? "تبریز، ایران" : "Tabriz, Iran"}</p>
           <p>{locale === "fa" ? "اطلاعات رسمی در انتظار تأیید" : "Official details pending approval"}</p>
-          <a href="mailto:info@diyarsanat.com">info@diyarsanat.com</a>
+          <a href="mailto:info@diyarsanat.com" dir="ltr">info@diyarsanat.com</a>
         </div>
       </div>
       <div className="footer-bottom container-wide">

@@ -46,10 +46,10 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             </h1>
             <p>{dict.hero.description}</p>
             <div className="hero-actions">
-              <Link className="button button-accent" href={`/${lang}/products`}>
-                {dict.actions.viewProducts}<ChevronIcon className="size-5" />
-              </Link>
               <Link className="button button-secondary" href="#factory">{dict.actions.aboutFactory}</Link>
+              <Link className="button button-accent" href={`/${lang}/products`}>
+                {dict.actions.viewProducts}<ChevronIcon className="directional-icon size-5" />
+              </Link>
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
                 <span><CategoryIcon name={category.icon} className="size-10" /></span>
                 <h3>{category.name}</h3>
                 <p>{category.description}</p>
-                <small>{dict.actions.details}<ChevronIcon className="size-4" /></small>
+                <small>{dict.actions.details}<ChevronIcon className="directional-icon size-4" /></small>
               </Link>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className="container-wide">
           <div className="section-title-row">
             <SectionHeading eyebrow={dict.products.eyebrow} title={dict.products.featured} align="start" />
-            <Link href={`/${lang}/products`}>{dict.actions.viewAll}<ChevronIcon className="size-4" /></Link>
+            <Link href={`/${lang}/products`}>{dict.actions.viewAll}<ChevronIcon className="directional-icon size-4" /></Link>
           </div>
           <div className="product-grid">
             {featured.map((product) => (

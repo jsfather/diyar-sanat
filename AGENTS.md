@@ -38,6 +38,12 @@ IDE agents, and human contributors.
 - The public website is locale-prefixed (`/fa`, `/en`), Persian is RTL, and all
   public pages need semantic headings, accessible focus states, and SEO
   metadata.
+- Locale direction is structural, not just text alignment. `/fa` must inherit
+  `lang="fa"` and `dir="rtl"`, use the local IRANYekanX FaNum variable font, and
+  mirror component order, navigation flow, grids, carousels, and directional
+  icons. `/en` must inherit `lang="en"` and `dir="ltr"`, use the standard-digit
+  IRANYekanX variable font, and preserve Latin numerals. Prefer CSS logical
+  properties and test both locales whenever shared layout code changes.
 - Do not publish unverified statistics, export claims, certificates, agents, or
   customer counts. “Global markets” is a direction, not a claim of active
   exports.

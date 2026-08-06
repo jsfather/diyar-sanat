@@ -25,8 +25,16 @@ global markets.”
   `#E4E8EB`, Neutral 50 `#F7F9FA`, White `#FFFFFF`.
 - Red is reserved for one priority CTA per viewport. Navy carries identity and
   trust. Most page area remains white or very light gray.
-- Persian font preference is Dana, then Vazirmatn/Noto Sans Arabic; English uses
-  Manrope. Use durable local/system fallbacks until licensed font files exist.
+- Typography uses the project-supplied proprietary IRANYekanX Pro variable web
+  fonts through `next/font/local`: the FaNum build on `/fa` renders Persian
+  digits, while the standard build on `/en` preserves Latin digits. Keep the
+  license notice beside the font assets and use Tahoma/Arial only as fallback
+  fonts.
+- Persian pages inherit `lang="fa"` and `dir="rtl"` at the document root. RTL is
+  structural: shared navigation, grids, horizontal scrollers, calls to action,
+  breadcrumbs, and directional icons must mirror their LTR ordering. Prefer
+  logical CSS properties and explicitly isolate email addresses, technical
+  codes, and other intrinsically LTR values.
 - Desktop: 1280px content container, 12 columns, 24px gutters. Tablet: 8
   columns, 24px margins. Mobile: 4 columns, 16px margins, 12px gutters.
 - Spacing scale: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 120.

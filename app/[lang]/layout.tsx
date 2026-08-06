@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { fontClassFor } from "@/app/fonts";
 import { MobileNavigation } from "@/components/mobile-navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -45,7 +46,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   return (
     <html lang={lang} dir={directionFor(lang)} suppressHydrationWarning>
-      <body>
+      <body className={fontClassFor(lang)}>
         <a className="skip-link" href="#main-content">
           {lang === "fa" ? "پرش به محتوای اصلی" : "Skip to main content"}
         </a>

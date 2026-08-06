@@ -31,27 +31,37 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           ))}
         </nav>
         <div className="header-tools">
-          <Link className="representative-button" href={`/${locale}#representatives`}>
-            {dict.actions.representative}
-          </Link>
-          <button className="icon-button desktop-tool" aria-label={locale === "fa" ? "جست‌وجو" : "Search"}>
-            <SearchIcon className="size-5" />
-          </button>
-          <ThemeToggle lightLabel={dict.theme.light} darkLabel={dict.theme.dark} />
-          <Link className="language-switch" href={`/${switchLocale}`} hrefLang={switchLocale}>
-            {dict.languageLabel}
-          </Link>
           <details className="mobile-menu">
             <summary className="icon-button" aria-label={locale === "fa" ? "باز کردن منو" : "Open menu"}>
               <MenuIcon className="size-6" />
             </summary>
-            <div className="mobile-menu-panel">
+            <div className="mobile-menu-panel" dir={locale === "fa" ? "rtl" : "ltr"}>
               <BrandMark locale={locale} compact />
               <nav aria-label={locale === "fa" ? "منوی موبایل" : "Mobile menu"}>
                 {nav.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
               </nav>
             </div>
           </details>
+          <Link
+            className="language-switch"
+            href={`/${switchLocale}`}
+            hrefLang={switchLocale}
+            lang={switchLocale}
+            dir={switchLocale === "fa" ? "rtl" : "ltr"}
+          >
+            {dict.languageLabel}
+          </Link>
+          <ThemeToggle lightLabel={dict.theme.light} darkLabel={dict.theme.dark} />
+          <button className="icon-button desktop-tool" aria-label={locale === "fa" ? "جست‌وجو" : "Search"}>
+            <SearchIcon className="size-5" />
+          </button>
+          <Link
+            className="representative-button"
+            href={`/${locale}#representatives`}
+            dir={locale === "fa" ? "rtl" : "ltr"}
+          >
+            {dict.actions.representative}
+          </Link>
         </div>
       </div>
     </header>
