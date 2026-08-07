@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CategoryIcon, ChevronIcon } from "@/components/icons";
 import type { Locale } from "@/lib/i18n";
+import type { BrandCode } from "@/lib/brands";
 
 type ProductCardProps = {
   locale: Locale;
@@ -14,10 +15,12 @@ type ProductCardProps = {
   categoryCode: string;
   accentColor: string;
   detailsLabel: string;
+  brandCode: BrandCode;
+  brandName: string;
 };
 
 export function ProductCard(props: ProductCardProps) {
-  const { locale, name, description, specification, slug, imageUrl, categoryCode, accentColor, detailsLabel } = props;
+  const { locale, name, description, specification, slug, imageUrl, categoryCode, accentColor, detailsLabel, brandCode, brandName } = props;
   const fallbackImages: Record<string, string> = { "engine-oil": "/images/product-engine-oil-dst.png", "gear-oil": "/images/product-gear-oil-dst.png", "brake-fluid": "/images/product-brake-fluid-dst.png", antifreeze: "/images/product-antifreeze-dst.png" };
   const resolvedImage = imageUrl ?? fallbackImages[categoryCode];
   return (
@@ -33,6 +36,7 @@ export function ProductCard(props: ProductCardProps) {
         )}
       </div>
       <div className="product-card-copy">
+        <span className={`product-brand-chip brand-${brandCode}`} dir="ltr">{brandName}</span>
         <h3>{name}</h3>
         <strong dir="ltr">{specification}</strong>
         <p>{description}</p>

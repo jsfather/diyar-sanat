@@ -5,6 +5,7 @@ import { MobileNavigation } from "@/components/mobile-navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { directionFor, getDictionary, isLocale, locales } from "@/lib/i18n";
+import { createClient } from "@/lib/supabase/server";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -15,16 +16,19 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const dict = getDictionary(lang);
-  const title = lang === "fa" ? "دیار صنعت تبریز" : "Diyar Sanat Tabriz";
-  const description = lang === "fa"
+  const {data:settings}=await(await createClient()).from("site_settings").select("site_title_fa,site_title_en,site_description_fa,site_description_en,favicon_url,google_site_verification,default_og_image_url").eq("id",true).maybeSingle();
+  const title = (lang === "fa" ? settings?.site_title_fa : settings?.site_title_en) || (lang === "fa" ? "دیار صنعت تبریز" : "Diyar Sanat Tabriz");
+  const description = (lang === "fa" ? settings?.site_description_fa : settings?.site_description_en) || (lang === "fa"
     ? "وب‌سایت رسمی دیار صنعت تبریز و برند دیار شیمی؛ تولیدکننده روانکارها و سیالات تخصصی خودرو."
-    : "Official website of Diyar Sanat Tabriz and Diyar Shimi automotive lubricants and specialty fluids.";
+    : "Official website of Diyar Sanat Tabriz and Diyar Shimi automotive lubricants and specialty fluids.");
 
   return {
     metadataBase: new URL("https://diyarsanat.com"),
     title: { default: title, template: `%s | ${title}` },
     description,
     applicationName: dict.brandName,
+    icons: settings?.favicon_url ? {icon:settings.favicon_url} : undefined,
+    verification: settings?.google_site_verification ? {google:settings.google_site_verification} : undefined,
     alternates: {
       canonical: `/${lang}`,
       languages: { fa: "/fa", en: "/en" },
@@ -36,7 +40,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       title,
       description,
       images: [{
-        url: "/images/diyar-social-card.png",
+        url: settings?.default_og_image_url || "/images/diyar-social-card.png",
         width: 1731,
         height: 909,
         alt: lang === "fa" ? "دیار صنعت تبریز؛ ساخت ایران، حرکت به جلو" : "Diyar Sanat Tabriz — Made in Iran, moving forward",
@@ -46,7 +50,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       card: "summary_large_image",
       title,
       description,
-      images: ["/images/diyar-social-card.png"],
+      images: [settings?.default_og_image_url || "/images/diyar-social-card.png"],
     },
   };
 }

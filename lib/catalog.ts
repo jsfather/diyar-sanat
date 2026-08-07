@@ -3,6 +3,7 @@ import "server-only";
 import type { Locale } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/server";
 import { hasSupabaseEnv } from "@/lib/supabase/env";
+import { brandName, type BrandCode } from "@/lib/brands";
 
 export type CatalogProduct = {
   id: number;
@@ -13,6 +14,8 @@ export type CatalogProduct = {
   imageUrl: string | null;
   featured: boolean;
   position: number;
+  brandCode: BrandCode;
+  brandName: string;
 };
 
 export type CatalogCategory = {
@@ -144,6 +147,8 @@ function fallbackCatalog(locale: Locale): CatalogResult {
       imageUrl: null,
       featured: true,
       position: productIndex + 1,
+      brandCode: "diyar-shimi" as const,
+      brandName: brandName("diyar-shimi", locale),
     })),
   }));
 
@@ -164,7 +169,7 @@ export async function getCatalog(locale: Locale): Promise<CatalogResult> {
     if (categoriesError || !categories?.length) return fallbackCatalog(locale);
 
     const categoryIds = categories.map(({ id }) => id);
-    const [{ data: categoryTranslations, error: categoryTranslationError }, { data: products, error: productsError }] =
+    const [{ data: categoryTranslations, error: categoryTranslationError }, { data: products, error: productsError }, {data:dbBrands}] =
       await Promise.all([
         supabase
           .from("product_category_translations")
@@ -173,11 +178,12 @@ export async function getCatalog(locale: Locale): Promise<CatalogResult> {
           .in("category_id", categoryIds),
         supabase
           .from("products")
-          .select("id, category_id, image_url, is_featured, position")
+          .select("id, brand_id, category_id, image_url, is_featured, position")
           .eq("is_published", true)
           .lte("published_at", new Date().toISOString())
           .in("category_id", categoryIds)
           .order("position"),
+        supabase.from("brands").select("id,code").eq("is_published",true),
       ]);
 
     if (categoryTranslationError || productsError || !categoryTranslations) {
@@ -230,6 +236,8 @@ export async function getCatalog(locale: Locale): Promise<CatalogResult> {
                 imageUrl: product.image_url,
                 featured: product.is_featured,
                 position: product.position,
+                brandCode: ((dbBrands?.find(brand=>brand.id===product.brand_id)?.code??"diyar-shimi") as BrandCode),
+                brandName: brandName(((dbBrands?.find(brand=>brand.id===product.brand_id)?.code??"diyar-shimi") as BrandCode), locale),
               },
             ];
           }),
