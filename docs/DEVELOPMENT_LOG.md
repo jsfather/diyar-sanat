@@ -3,6 +3,13 @@
 Update this file with every feature, bug fix, schema change, or architecture
 decision. Newest entries go first.
 
+## 2026-08-07 — Vercel production build boundary fix
+
+- Fixed the failed production build caused by the client-side media archive importing runtime values from the server-only media data module.
+- Moved the small media-kind presentation mapping and serializable prop types into the client boundary so `next/headers`, the server Supabase client, and `server-only` are no longer pulled into the browser bundle.
+- Affected component: `components/media-archive.tsx`.
+- Verification: a complete Next.js production build passed, including TypeScript, page-data collection, and generation of all 71 static pages.
+
 ## 2026-08-07 — Visible current homepage slide in administration
 
 - Fixed the empty slider-management state caused by the public homepage using an in-code fallback while administration only queried persisted slide rows.
