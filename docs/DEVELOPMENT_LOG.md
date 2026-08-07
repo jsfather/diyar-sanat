@@ -3,6 +3,230 @@
 Update this file with every feature, bug fix, schema change, or architecture
 decision. Newest entries go first.
 
+## 2026-08-07 — Visible current homepage slide in administration
+
+- Fixed the empty slider-management state caused by the public homepage using an in-code fallback while administration only queried persisted slide rows.
+- The exact currently displayed fallback image and bilingual content now appear in the slider list and editable form when no database slide exists; the first save persists it as a normal managed slide.
+- Added image thumbnails, a large current-image preview, and a clear fallback-state message so editors can identify the content they are changing.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Operational admin content cards
+
+- Restored the products and representatives indexes to responsive card layouts while preserving their complete expandable editors and role-aware delete controls.
+- Redesigned certificates, gallery albums/items, central media assets, and editorial entries as consistent visual cards with clear status, preview, edit, and delete actions.
+- Upgraded certificate, album, gallery-item, and media-asset server actions from create-only flows to authenticated create/update/delete operations; SEO staff cannot perform destructive actions.
+- Added a real editorial editing flow that loads the selected bilingual news/article/guide into the editor, plus a role-aware delete action and public media cache revalidation.
+- No database migration was required; existing tables and RLS policies remain the source of truth.
+- Verification: `bun run typecheck` and `bun run lint` pass (image previews retain the existing trusted Storage URL approach and emit only the established `no-img-element` optimization warnings).
+
+## 2026-08-07 — Managed homepage slider and factory video
+
+- Added unlimited bilingual homepage hero slides with secure image upload, Persian/English alt text, kicker, title, subtitle, description, two configurable CTAs, ordering, draft/publication state, editing, and deletion.
+- Converted the visual-only homepage hero into an interactive client slider that consumes published managed slides while retaining the existing static hero as a safe pre-migration fallback.
+- Added managed factory-introduction media with video upload, cover upload, bilingual title/subtitle/description, and publication control directly inside `/admin/translations` under page content.
+- Connected the managed cover and video to the homepage factory teaser; when no managed media exists, the current approved cover and presentation remain intact.
+- Added migration `20260807163600_homepage_slider_and_video.sql` with indexes, triggers, explicit grants, RLS, public published-content reads, and staff-only management.
+- Verification: `bun run typecheck` and `bun run lint` pass. Migration replay remains pending until applied to the configured Supabase instance.
+
+## 2026-08-07 — Product statistics and centered mobile date
+
+- Corrected the products-page interpretation by restoring a compact editable product list and adding four dedicated statistical cards for total, published, featured, and represented brands.
+- Repositioned the Jalali date/time in the mobile admin topbar between the user identity and the physical-left logout button, and increased its size and weight for legibility.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Product cards and mobile admin topbar
+
+- Removed the obsolete standalone `/admin/product-specifications` page; technical data remains exclusively inside the complete product editor.
+- Reworked the products index into responsive visual cards with a large product thumbnail, localized names, publication status, compact closed state, and a full-width editor when opened.
+- Rebuilt the mobile admin topbar with a two-line Jalali date/time display, removed “secure” from the logout label, and placed a compact red logout control on the physical left while retaining the menu trigger on the right.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Complete product editor and managed site identity
+
+- Consolidated technical specifications, product catalogs/downloads, applications, icon-based features, and multi-image galleries into the product create/edit workflow; removed the duplicate technical-specification and catalog/file entries from admin navigation.
+- Added repeatable product content cards with secure uploads, primary-image selection, bilingual image alt text, twelve approved SVG icon choices, bilingual applications/features, and typed downloads.
+- Added product content tables, indexes, update triggers, explicit grants, public/published read policies, and staff management RLS in migration `20260807161124_product_content_and_site_identity.sql`.
+- Connected managed features, gallery images, applications, specifications, and downloads to the public product detail experience, replacing hard-coded benefit and tab content when managed records exist.
+- Added manager-only `/admin/site-settings` for bilingual site title/description, header/admin/login logos, favicon, default social image, and Google Search Console verification. Site metadata, favicon, verification, and social image now consume these settings with safe fallbacks.
+- Verification: `bun run typecheck` and `bun run lint` pass. Migration replay remains pending until applied to the configured Supabase instance.
+
+## 2026-08-07 — Async geography selection and second admin UI pass
+
+- Replaced the representative form's 2,000+ city dropdown with an authenticated country → province → live city-search picker. Requests are debounced, limited to 25 results, show loading/empty/error states, and preserve the selected city while editing.
+- Added the protected `/api/admin/locations` endpoint for incremental country, province, and city lookup without exposing privileged credentials or loading the complete city dataset into the browser.
+- Changed `/admin/locations` so cities are searched asynchronously within the selected province and only the chosen city editor is rendered; country and province management remain visible as the stable hierarchy.
+- Applied the refined admin design foundation to certificates, galleries, media assets, jobs, job applications, contact submissions, international inquiries, and downloadable files: clearer panel hierarchy, balanced forms, upload controls, record rows, statuses, spacing, and responsive layouts.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Catalog, locations, representatives, and request UX pass
+
+- Unified the seven requested catalog and representative administration areas around clearer create/list panels, balanced bilingual fieldsets, consistent controls, compact expandable records, publication badges, and responsive action placement.
+- Reduced product, category, brand, and representative form height by placing Persian and English fieldsets side by side on desktop and stacking them deliberately on mobile.
+- Reworked the geography workspace into three visually distinct country, province, and selected-province city columns with stronger headings, larger controls, and responsive two-card/tablet and single-card/mobile behavior.
+- Replaced the technical-specification redirect with an operational coverage overview showing Persian/English specification counts per product and a single route back to canonical product editing, avoiding duplicate data-entry interfaces.
+- Redesigned representative applications as a review inbox with summary metrics, status filters, numbered request cards, structured applicant details, and a dedicated review panel.
+- Affected routes: `/admin/brands`, `/admin/product-categories`, `/admin/products`, `/admin/product-specifications`, `/admin/locations`, `/admin/representatives`, and `/admin/representative-applications`.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Unified admin forms and FAQ management redesign
+
+- Corrected the shared admin form foundation so catalog and settings forms use balanced two-column grids, consistent 48px controls, predictable full-width fields, aligned actions, stronger focus states, and a purpose-built single-column mobile layout.
+- Completely rebuilt `/admin/faqs` with summary metrics, a collapsible create workflow, scannable numbered question cards, publication badges, bilingual fieldsets, aligned ordering/publication controls, and clearly separated save/delete actions.
+- Improved shared create/list panels and editable rows across the remaining admin modules so the visual hierarchy and spacing no longer depend on each page's incidental field count.
+- Verification: `bun run typecheck` and `bun run lint` pass.
+
+## 2026-08-07 — Admin page-content workspace UI/UX redesign
+
+- Rebuilt `/admin/translations` as a focused content workspace instead of a long stack of generic translation forms.
+- Added a sticky page navigator, clear page summaries, balanced two-column content cards, human-readable field names, side-by-side Persian/English editors, restrained technical identifiers, and a secondary advanced-field area.
+- Added responsive behavior: the page navigator becomes a horizontal touch list, language editors stack cleanly, and save actions become full-width on mobile.
+- Improved hierarchy, spacing, typography, focus states, success/error feedback, and visual consistency with the admin design system.
+- Verification: `bun run typecheck` and `bun run lint` pass. Browser visual QA could not run because no controllable browser was available in the current session.
+
+## 2026-08-07 — Careers and recruitment applications
+
+- Added bilingual job positions with department, employment type, location, description, requirements, publication dates, indexes, grants, and RLS.
+- Added private résumé storage and a validated public application endpoint supporting both general talent-pool submissions and applications linked to a published position.
+- Replaced simulated résumé submissions with persisted applications and tracking codes; added live public career filtering and dynamic SEO-ready job detail routes.
+- Added operational `/admin/jobs` and `/admin/job-applications` screens. Migration: `20260807114230_careers_and_applications.sql`.
+
+## 2026-08-07 — Certificates, galleries, and media library
+
+- Added certificates, gallery albums/items, and central media-assets tables with publication controls, indexes, explicit grants, RLS, and secure Storage-backed file references.
+- Seeded only the certificate and license identifiers supplied by the business, correcting the standard name to ASTM D3306.
+- Added operational `/admin/certificates`, `/admin/galleries`, `/admin/media`, and filtered `/admin/files` interfaces with direct secure uploads instead of pasted file URLs.
+- Migration: `20260807113356_certificates_gallery_files.sql`; updated generated database types and responsive administration CSS.
+
+## 2026-08-07 — Public catalog and media database connection
+
+- Added an idempotent content migration for the existing Dyar Shimi brand, four public product categories, and the currently presented verified product records.
+- Updated catalog mapping to resolve each product's actual database brand instead of assigning a hard-coded brand.
+- Connected the public media archive to published bilingual editorial records in Supabase, with the existing in-code content retained only as a connection/empty fallback.
+- Migration: `20260807112755_seed_existing_public_content.sql`; affected `lib/catalog.ts`, `lib/media-content.ts`, and `/[lang]/media`.
+
+## 2026-08-07 — Administration structural UX and secure uploads
+
+- Increased administration typography and control sizing across navigation, dashboards, lists, forms, and mobile layouts.
+- Consolidated duplicate news, articles, and media-category navigation into one `News & articles` workspace.
+- Added a protected Supabase Storage bucket with MIME/size restrictions and staff-only mutation policies, plus an authenticated upload endpoint and reusable upload control; product images and datasheets no longer require pasted URLs.
+- Replaced the disabled staff invitation control with operational manager-only user creation through the server-side Supabase Admin API, including strong-password validation, role selection, rollback on profile failure, and no browser exposure of the secret key.
+- Migration: `20260807111348_secure_media_storage.sql`. Added server-only `SUPABASE_SECRET_KEY` configuration.
+
+## 2026-08-07 — Manager bootstrap and editorial administration
+
+- Added an idempotent Auth trigger/profile migration that promotes and activates an existing or subsequently created `admin@admin.com` Auth account without storing any password in source control.
+- Added normalized media categories, editorial entries, and bilingual translations for news, articles, and guides, including SEO, cover/video/CTA fields, publication workflow, indexes, grants, and RLS.
+- Added the responsive `/admin/editorial` creation workspace and routed news, articles, and media-category modules into it.
+- Migrations: `20260807103335_promote_initial_manager.sql` and `20260807103428_editorial_content.sql`. No administrator password is embedded in migrations.
+
+## 2026-08-07 — Operational representative applications
+
+- Added a protected representative-application schema with generated/unique tracking codes, workflow statuses, review audit fields, indexes, explicit grants, and RLS allowing public insert but manager/admin-only reads and updates.
+- Connected the public five-step form to a validated server endpoint and replaced the previous simulated tracking result with persisted submissions and cryptographically random tracking codes.
+- Added a responsive admin review queue with application details, workflow status, and private internal notes.
+- Migration: `20260807102848_representative_applications.sql`; affected `/api/representative-applications`, `/admin/representative-applications`, and the public representative application form.
+
+## 2026-08-07 — Geography and representatives administration
+
+- Added normalized country, province, city, and representative tables with validated hierarchy, map anchors, contact/location fields, indexes, updated-at triggers, explicit grants, and RLS.
+- Public visitors can read only published records with a fully published parent chain; only active manager/admin roles can manage geography and representatives.
+- Seeded only the verified country choices Iran and Iraq; no unverified representative or province data was invented.
+- Added responsive hierarchical location management and operational representative CRUD with bilingual identity/address, phone, WhatsApp, coordinates, directions, ordering, and publication controls.
+- Consolidated country, province, and city navigation into `/admin/locations`; added `/admin/representatives` for the network directory.
+- Migration: `20260807101140_representatives_geography.sql`. Updated generated database types and admin CSS.
+- Verification: `bun run typecheck` and `bun run lint` pass. Full local migration reset was attempted, but the local Supabase service is unavailable (`LegacyDbBootstrapError`).
+
+## 2026-08-07 — Operational product and specification administration
+
+- Added database-backed product creation and editing with validated brand/category relationships, SKU, image and datasheet paths, ordering, featured state, publication state, and bilingual content/SEO fields.
+- Added bilingual technical-specification editing with ordered `label | value` rows, server validation, protected deletion, and public catalog revalidation after changes.
+- Restricted assets to internal paths or HTTPS URLs and prevented incomplete newly-created products from remaining when translation persistence fails.
+- Added responsive expandable product management UI with grouped category choices, product previews, and mobile-friendly long forms.
+- Affected: `/admin/products` and admin catalog CSS. Existing catalog schema and RLS policies are reused; no database migration.
+
+## 2026-08-07 — Operational product-category administration
+
+- Added database-backed product-category creation and editing, linked to existing brands, with bilingual content, SEO fields, slugs, icon, accent color, display order, and publication state.
+- Added server-side validation, role-controlled deletion, protection against deleting categories with products, and cleanup of incomplete records when translation persistence fails.
+- Added responsive category list, expandable editing forms, publication indicators, and a required-brand empty state.
+- Affected: `/admin/product-categories` and admin catalog CSS. Existing catalog schema and RLS policies are reused; no database migration.
+
+## 2026-08-07 — Focused administration login identity
+
+- Replaced the promotional and security-claim copy on the administration login screen with the Diyar Sanat identity and one concise system description.
+- Removed the invitation notice and secondary login footer copy, and kept the brand visible in both desktop and mobile layouts.
+- Affected: `/admin/login`, `components/admin-login-form.tsx`, `app/admin/login/page.tsx`, and admin login CSS. No database migration.
+
+## 2026-08-07 — Operational brand administration
+
+- Added database-backed brand creation and editing with Persian and English names, descriptions and SEO-friendly slugs, display ordering, and publication state.
+- Added role-checked Server Actions, server-side validation, protected deletion for manager/admin roles, responsive list/edit interactions, and clear database error states.
+- Refined mobile administration login into a unified branded composition with larger touch targets and stronger visual hierarchy.
+- Affected: `/admin/brands`, admin login and catalog CSS. Existing catalog schema and RLS policies are reused; no database migration.
+
+## 2026-08-07 — Secure administration foundation (phase 1)
+
+- Added a separate no-index `/admin` application with a responsive Persian login experience, protected dashboard shell, Jalali dates, catalog/staff statistics, role-aware navigation, secure logout, and recent-login area.
+- Replaced legacy profile roles with `manager`, `admin`, and `seo`; added active-state enforcement, immediate database-backed role checks, manager-only staff/settings policies, and hardened RLS helper functions.
+- Added non-secret login settings for password/SMS/both, provider selection, OTP timing, CAPTCHA requirement, and a protected login-event audit table.
+- Disabled public Auth signup and raised local password policy to 12 characters with upper/lowercase letters, digits, and symbols.
+- Added server-only Kavenegar, SMS.ir, and IPPanel OTP provider adapters with strict Iranian mobile/OTP validation, timeouts, and environment-only credentials.
+- Added role-aware module registry for every requested website domain, manager settings and staff-list screens, and staged module pages ready for CRUD implementation.
+- No default admin account or hard-coded password was created. SMS OTP remains disabled until provider credentials/template and the Supabase Send SMS hook are configured.
+- Affected: `/admin`, `components/admin-*`, `lib/admin/*`, `lib/sms/providers.ts`, `proxy.ts`, `.env.example`, `supabase/config.toml`, `supabase/migrations/20260807093656_admin_foundation.sql`, generated DB types, and admin CSS.
+- Verification: `bun run typecheck` and `bun run lint` pass. Local migration reset was attempted but the local Supabase service/container was unavailable; production build passes.
+
+## 2026-08-07 — Mobile products mega menu
+
+- Added a touch-friendly, accessible products mega menu inside the mobile navigation drawer.
+- Products now expand into brand-specific links for HAFMAN, Kentoil, and Dyar Shimi plus a clear “View all products” action.
+- Added Escape/backdrop/close handling, body scroll locking, RTL-aware directional icons, and light/dark mobile styling.
+- Affected: `components/mobile-menu.tsx`, `app/globals.css`. No database migration.
+- Verification: `bun run typecheck`, `bun run lint`, and production build.
+
+## 2026-08-07 — Turbopack JSON runtime recovery
+
+- Diagnosed `Unexpected end of JSON input` as a stale/incomplete Turbopack development cache and HMR connection rather than application JSON parsing.
+- Rebuilt the generated `.next` development cache and restarted the local Next.js development server cleanly.
+- Verified the homepage plus FAQ, buying guide, and request-tracking routes return complete HTTP 200 responses after restart.
+- No application or database behavior changed.
+
+## 2026-08-07 — FAQ, buying guide, and request tracking
+
+- Added localized, SEO-ready FAQ pages with categorized search, accessible accordions, and FAQPage structured data.
+- Added a buying guide that clearly states the website does not sell online, directs visitors to verified representatives, explains product selection, and provides careful anti-counterfeit inspection guidance without claiming any single visual sign proves authenticity.
+- Added a request-tracking page with tracking code, mobile, and CAPTCHA validation; it transparently reports that live lookup is not connected and does not send or store entered data.
+- Connected customer-service footer links to the new routes and added all localized pages to the sitemap.
+- Affected: `/[lang]/faq`, `/[lang]/buying-guide`, `/[lang]/request-tracking`, `components/support-tools.tsx`, `components/site-footer.tsx`, `app/sitemap.ts`, and `app/globals.css`. No database migration.
+- Verification: `bun run typecheck`, `bun run lint`, and production build.
+
+## 2026-08-06 — Product CTA wording
+
+- Replaced “product archive” wording in the products mega menu and product-detail secondary action with the clearer localized “View all products” label.
+- Affected: `components/header-navigation.tsx`, `app/[lang]/products/[slug]/page.tsx`. No database migration.
+- Verification: `bun run typecheck` and `bun run lint`.
+
+## 2026-08-06 — Product brand and category hierarchy
+
+- Separated the product brand badge from the category and restyled categories such as engine oil and antifreeze as distinct, accessible chips.
+- Improved spacing before the product title in desktop, mobile, and dark themes.
+- Affected: `app/globals.css`. No database migration.
+- Verification: `bun run typecheck` and `bun run lint`.
+
+## 2026-08-06 — Removed brand-card numbering
+
+- Removed the decorative 01/02/03 labels from homepage brand cards for a cleaner visual hierarchy.
+- Affected: `app/[lang]/page.tsx`. No database migration.
+- Verification: `bun run typecheck` and `bun run lint`.
+
+## 2026-08-06 — Homepage brand-card UX refinement
+
+- Redesigned the homepage brand cards with a calmer industrial layout, clearer identity hierarchy, a subtle localized Diyar Sanat watermark, and a dedicated directional CTA for each brand.
+- Removed publication-status labels and avoided implying inventory; brand archives remain valid when their product list is empty.
+- Updated Persian and English actions so each CTA explicitly names its brand.
+- Affected: `app/[lang]/page.tsx`, `app/globals.css`. No database migration.
+- Verification: `bun run typecheck`, `bun run lint`, and production build.
+
 ## 2026-08-06 — Theme switch and About navigation icon
 
 - Replaced the compact icon/text theme button with a clear two-state sun/moon
@@ -496,3 +720,64 @@ decision. Newest entries go first.
 - Verification: `bun run lint`, `bun run typecheck`, and an isolated
   `bun run build -- --webpack` all completed successfully. The isolated output
   was used because an unrelated running process held a legacy `.next` log open.
+# 2026-08-06 — Brand portfolio across homepage and product journeys
+
+- Added a shared, localized brand model for HAFMAN, Kentoil, and Dyar Shimi and connected it to catalog products.
+- Added a responsive “Our brands” section to the homepage with distinct visual identities and honest publication states.
+- Reworked the products mega menu around brands, with direct brand-filtered archive links.
+- Added accessible brand filters and empty states to the product archive; existing verified catalog items are assigned to Dyar Shimi, while no unverified HAFMAN or Kentoil products are invented.
+- Added consistent brand chips to archive cards and an enhanced brand label plus dynamic Product structured data on product-detail pages.
+- Affected: `lib/brands.ts`, `lib/catalog.ts`, `components/header-navigation.tsx`, `components/product-card.tsx`, `app/[lang]/page.tsx`, `app/[lang]/products/page.tsx`, `app/[lang]/products/[slug]/page.tsx`, `app/globals.css`.
+- Verification: `bun run typecheck`; `bun run lint`; production build.
+# 2026-08-07 — Contact submissions, translations, and managed SEO
+
+- Replaced the contact form's preview-only confirmation with a real server-side submission flow, validated fields, consent, captcha, private optional attachment upload, database persistence, and a durable tracking code.
+- Added the operational `/admin/contact-submissions` inbox with review status and internal notes for manager/admin roles.
+- Added bilingual keyed translations management at `/admin/translations`, including safe namespace/key validation and public read access for future incremental frontend adoption.
+- Added route- and locale-specific SEO management at `/admin/seo` for titles, descriptions, canonical URLs, robots directives, Open Graph images, and validated JSON structured data.
+- Connected the contact page metadata to managed SEO values with existing hard-coded metadata retained as a safe fallback when the migration or record is absent.
+- Added migration `20260807115250_contact_translations_seo.sql` with explicit grants, RLS, lookup indexes, update triggers, and the private `contact-attachments` Storage bucket.
+- Affected routes: `/fa/contact`, `/en/contact`, `/admin/contact-submissions`, `/admin/translations`, `/admin/seo`, and `/api/contact-submissions`.
+- Verification: `bun run typecheck` and `bun run lint` pass. Database replay remains pending until the migration is applied to the configured Supabase instance.
+# 2026-08-07 — International inquiries and private representative documents
+
+- Replaced the international-cooperation preview form with a real multipart submission flow, server validation, required captcha and consent, private company-profile upload, database persistence, and a generated tracking code.
+- Added `/admin/international-inquiries` with role-limited review states and internal notes, and exposed it in the requests navigation group.
+- Upgraded representative applications from JSON-only submission to trusted server-side multipart handling; optional business documents now upload to a private bucket and their paths are persisted with the application.
+- Removed anonymous/direct Data API inserts for representative applications. Both public forms now write through validated server routes using the server-only Supabase secret.
+- Added migration `20260807120725_international_inquiries_and_private_documents.sql` with explicit grants, RLS, review indexes, and private `international-profiles` and `representative-documents` buckets.
+- Affected routes: `/fa/international-cooperation`, `/en/international-cooperation`, `/api/international-inquiries`, `/api/representative-applications`, and `/admin/international-inquiries`.
+- Verification: `bun run typecheck` passes. Full migration replay remains pending until the migration is applied to the configured Supabase instance.
+# 2026-08-07 — Idempotent catalog seed conflict fix
+
+- Fixed the catalog seed migration after an existing localized product slug triggered `product_translations_locale_slug_key` during replay.
+- Product translation upserts now target the actual unique route identity `(locale, slug)` and reconnect the translation to the canonical SKU-selected product instead of conflicting on a stale product ID.
+- Updated all three seeded product translation statements so repeated migration/seed execution follows the same deterministic behavior.
+- Affected migration: `20260807112755_seed_existing_public_content.sql`. No schema or RLS change.
+- Verification: confirmed every seeded product translation now uses `on conflict(locale,slug)`.
+# 2026-08-07 — Unified geography, managed navigation, and brand sync
+
+- Consolidated the three duplicate admin navigation entries for countries, provinces, and cities into the existing unified `/admin/locations` workspace; legacy routes continue redirecting there.
+- Added idempotent seed data for Iran and Iraq, all 31 Iranian provinces and 19 Iraqi governorates (including Halabja as used by the public selector), and an official administrative-center city for each region. No representative records were fabricated.
+- Synchronized the public brand portfolio with the database by adding published HAFMAN and Kentoil records and bilingual translations, while preserving Dyar Shimi and leaving unverified product lists empty.
+- Added a bilingual `navigation_items` model with header/footer placement, hierarchy, ordering, publication controls, RLS, explicit grants, and initial navigation seed data.
+- Built `/admin/menus` and connected published root navigation items to both the public header and footer, with safe in-code fallbacks before the migration is deployed.
+- Updated the products mega-menu trigger to detect the products route rather than relying on a fragile fixed menu index, so admin reordering does not break it.
+- Added migration `20260807122819_locations_brands_navigation.sql` and updated generated database types.
+- Verification: `bun run typecheck` and `bun run lint` pass. Migration replay remains pending until applied to the configured Supabase instance.
+# 2026-08-07 — Comprehensive Iran and Iraq city dataset
+
+- Added an idempotent city-data migration generated from the GeoNames IR/IQ country dumps (CC BY 4.0), restricted to populated places with a recorded population of at least 1,000 plus all administrative seats so villages and unnamed geography do not overwhelm the selector.
+- Added 2,119 localized city records: 1,951 for Iran and 168 for Iraq, mapped across all 31 Iranian provinces and 19 Iraqi governorates.
+- Persian/Arabic names are selected from the source alternate names where available; stable collision-free slugs include the GeoNames identifier.
+- Redesigned `/admin/locations` city management to load one selected province at a time, preventing thousands of edit forms from rendering simultaneously while retaining country, province, and city creation/editing in one workspace.
+- Added migration `20260807124116_seed_iran_iraq_cities.sql`. No new public claims or representative records were introduced.
+- Verification: validated record counts and coverage of all 50 administrative regions; `bun run typecheck` and `bun run lint` pass. Database replay remains pending until the migration is applied.
+# 2026-08-07 — Page-oriented bilingual content management
+
+- Expanded the existing translation store into a page-oriented content workspace at `/admin/translations`, grouping editable Persian and English fields by homepage, about, contact, FAQ, buying guide, international cooperation, and the global footer.
+- Connected managed content to the homepage hero, Made-in-Iran badge, product heading, factory introduction, footer contact headings/details, contact page, and shared inner-page heroes while preserving safe in-code fallbacks before migrations are deployed.
+- Added a dedicated bilingual FAQ model and `/admin/faqs` CRUD workspace with category, question, answer, ordering, publication status, public read policy, and staff-only management.
+- Added idempotent starter content for both locales in migration `20260807125322_editable_page_content_and_faqs.sql`; no unverified company claims were introduced.
+- Affected routes: `/fa`, `/en`, `/[lang]/about`, `/[lang]/contact`, `/[lang]/faq`, `/[lang]/buying-guide`, `/[lang]/international-cooperation`, `/admin/translations`, and `/admin/faqs`.
+- Verification: `bun run typecheck` and `bun run lint` pass. Full database replay remains pending until a local container runtime is available or the migration is applied to the configured Supabase instance.

@@ -1,0 +1,13 @@
+import type { SVGProps } from "react";
+type Props=SVGProps<SVGSVGElement>;
+const Icon=({children,...props}:Props)=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>{children}</svg>;
+export const DashboardIcon=(p:Props)=><Icon {...p}><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="4" rx="2"/><rect x="14" y="11" width="7" height="10" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></Icon>;
+export const ShoppingBagIcon=(p:Props)=><Icon {...p}><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></Icon>;
+export const FolderIcon=(p:Props)=><Icon {...p}><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6Z"/></Icon>;
+export const FileTextIcon=(p:Props)=><Icon {...p}><path d="M6 2h8l4 4v16H6V2Z"/><path d="M14 2v5h5M9 12h6M9 16h6"/></Icon>;
+export const GlobeIcon=(p:Props)=><Icon {...p}><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></Icon>;
+export const MapIcon=(p:Props)=><Icon {...p}><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="M9 3v15M15 6v15"/></Icon>;
+export const UsersIcon=(p:Props)=><Icon {...p}><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 21a6 6 0 0 1 12 0M14 16a5 5 0 0 1 7 5"/></Icon>;
+export const ImageIcon=(p:Props)=><Icon {...p}><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m4 17 5-5 4 4 3-3 5 5"/></Icon>;
+export const SettingsIcon=(p:Props)=><Icon {...p}><circle cx="12" cy="12" r="3"/><path d="M19 15a2 2 0 0 0 .4 2.2l.1.1-2.2 2.2-.1-.1A2 2 0 0 0 15 19l-.2.1V22h-3v-2.9l-.2-.1a2 2 0 0 0-2.2.4l-.1.1-2.2-2.2.1-.1A2 2 0 0 0 7 15l-.1-.2H4v-3h2.9L7 11a2 2 0 0 0-.4-2.2l-.1-.1 2.2-2.2.1.1A2 2 0 0 0 11 7l.2-.1V4h3v2.9l.2.1a2 2 0 0 0 2.2-.4l.1-.1 2.2 2.2-.1.1A2 2 0 0 0 18 11l.1.8H21v3h-2.9L19 15Z"/></Icon>;
+export const LogoutIcon=(p:Props)=><Icon {...p}><path d="M10 4H5v16h5M14 8l4 4-4 4M8 12h10"/></Icon>;

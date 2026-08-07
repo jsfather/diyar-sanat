@@ -8,19 +8,11 @@ import { MobileMenu } from "@/components/mobile-menu";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/i18n";
+import { getHeaderNavigation } from "@/lib/navigation";
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+export async function SiteHeader({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
-  const nav = [
-    [dict.navigation.home, `/${locale}`],
-    [dict.navigation.about, `/${locale}/about`],
-    [dict.navigation.products, `/${locale}/products`],
-    [dict.navigation.representatives, `/${locale}/representatives`],
-    [dict.navigation.media, `/${locale}/media`],
-    [locale === "fa" ? "همکاری بین‌المللی" : "International", `/${locale}/international-cooperation`],
-    [dict.navigation.careers, `/${locale}/careers`],
-    [dict.navigation.contact, `/${locale}/contact`],
-  ] as const;
+  const nav = await getHeaderNavigation(locale);
 
   return (
     <header className="site-header">

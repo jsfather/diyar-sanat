@@ -5,6 +5,12 @@ import { ProductCard } from "@/components/product-card";
 import { getCatalog } from "@/lib/catalog";
 import { getDictionary, isLocale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
+import { brands, brandName, isBrandCode, type BrandCode } from "@/lib/brands";
+
+type ProductsPageProps = {
+  params: Promise<{ lang: string }>;
+  searchParams: Promise<{ brand?: string | string[] }>;
+};
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/products">): Promise<Metadata> {
   const { lang } = await params;
@@ -20,11 +26,17 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products">
   };
 }
 
-export default async function ProductsPage({ params }: PageProps<"/[lang]/products">) {
+export default async function ProductsPage({ params, searchParams }: ProductsPageProps) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
   const catalog = await getCatalog(lang);
+  const requestedBrand = (await searchParams).brand;
+  const brandValue = Array.isArray(requestedBrand) ? requestedBrand[0] : requestedBrand;
+  const selectedBrand: BrandCode | "all" = isBrandCode(brandValue) ? brandValue : "all";
+  const visibleCategories = catalog.categories
+    .map((category) => ({ ...category, products: selectedBrand === "all" ? category.products : category.products.filter((product) => product.brandCode === selectedBrand) }))
+    .filter((category) => selectedBrand === "all" || category.products.length > 0);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -51,10 +63,15 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
         </div>
       </header>
 
+      <nav className="container-wide product-brand-tabs" aria-label={lang === "fa" ? "فیلتر محصولات بر اساس برند" : "Filter products by brand"}>
+        <Link className={selectedBrand === "all" ? "active" : undefined} href={`/${lang}/products`}>{lang === "fa" ? "همه برندها" : "All brands"}</Link>
+        {brands.map((brand) => <Link className={`${selectedBrand === brand.code ? "active" : ""} brand-${brand.code}`} key={brand.code} href={`/${lang}/products?brand=${brand.code}`}><strong dir="ltr">{brand.latin}</strong><small>{lang === "fa" ? brand.fa : brand.en}</small></Link>)}
+      </nav>
+
       <div className="container-wide catalog-layout">
         <aside className="category-index" aria-label={lang === "fa" ? "گروه‌های محصول" : "Product groups"}>
           <h2>{lang === "fa" ? "گروه محصولات" : "Product groups"}</h2>
-          {catalog.categories.map((category) => (
+          {visibleCategories.map((category) => (
             <Link key={category.id} href={`#${category.slug}`}>
               <CategoryIcon name={category.icon} className="size-5" />
               <span>{category.name}</span>
@@ -63,7 +80,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
         </aside>
         <div className="catalog-content">
           {catalog.source === "fallback" ? <p className="sample-notice">{dict.products.sampleNotice}</p> : null}
-          {catalog.categories.map((category) => (
+          {visibleCategories.map((category) => (
             <section key={category.id} id={category.slug} className="catalog-category">
               <div className="catalog-category-heading" style={{ "--category-accent": category.accentColor } as React.CSSProperties}>
                 <span><CategoryIcon name={category.icon} className="size-8" /></span>
@@ -84,12 +101,22 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
                       categoryCode={category.code}
                       accentColor={category.accentColor}
                       detailsLabel={dict.actions.details}
+                      brandCode={product.brandCode}
+                      brandName={product.brandName}
                     />
                   ))}
                 </div>
               ) : <p className="empty-state">{dict.products.empty}</p>}
             </section>
           ))}
+          {selectedBrand !== "all" && visibleCategories.length === 0 ? (
+            <section className={`brand-products-empty brand-${selectedBrand}`}>
+              <strong dir="ltr">{brands.find((brand) => brand.code === selectedBrand)?.latin}</strong>
+              <h2>{brandName(selectedBrand, lang)}</h2>
+              <p>{lang === "fa" ? "محصول تأییدشده‌ای از این برند هنوز منتشر نشده است. به‌محض تکمیل اطلاعات فنی، محصولات در همین صفحه در دسترس خواهند بود." : "No verified products have been published for this brand yet. Products will appear here once their technical information is complete."}</p>
+              <Link className="button button-secondary" href={`/${lang}/products`}>{lang === "fa" ? "مشاهده همه محصولات" : "View all products"}</Link>
+            </section>
+          ) : null}
         </div>
       </div>
     </main>

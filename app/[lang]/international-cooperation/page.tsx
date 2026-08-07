@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { InternationalForm } from "@/components/inquiry-forms";
+import { InternationalInquiryForm as InternationalForm } from "@/components/international-inquiry-form";
 import { InnerPageHero } from "@/components/inner-page-hero";
 import { isLocale } from "@/lib/i18n";
 
